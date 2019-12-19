@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    hostname: myjenkins
+    # 表示当前容器具有root特权,解决jenkins执行指令遇到权限问题
+    privileged: true
+    tty: true
+    user: 'root'
+    environment:
+      - TZ=Asia/Shanghai
+    #expose:
+    #    - "8080"
+    #    - "50000"
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+    volumes:
+      - /data/jenkins:/var/jenkins_home
+      - /data/deploy:/data/deploy
+      - /data/deploy/travel:/data/travel/service
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /data/docker:/data/docker
+      - /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7
+      #添加系统指令工具到jenkins容器
+      - /usr/bin/zip:/usr/bin/zip
